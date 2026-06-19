@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @keyframes sjBlink { 0%,100%{opacity:1} 50%{opacity:.35} }
+  @keyframes sjFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+  @keyframes sjShine { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+  *::-webkit-scrollbar{ width:0; height:0; }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;box-sizing:border-box;background:radial-gradient(60% 50% at 50% 30%, rgba(255,200,61,0.10) 0%, transparent 60%), radial-gradient(80% 80% at 50% 120%, rgba(52,228,214,0.08) 0%, transparent 60%), #05100b;font-family:'Outfit',system-ui,sans-serif;">
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ isDark }}" hint-size="402px,874px">
+
+    <div style="height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;color:#F6F1E4;font-family:'Outfit',system-ui,sans-serif;background:radial-gradient(130% 80% at 50% -5%, rgba(20,80,54,0.65) 0%, transparent 55%), linear-gradient(180deg,#0a2a1d 0%,#061712 55%,#04100b 100%);">
+
+      <!-- LOGIN / SIGN-UP -->
+      <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
+      <div style="height:100%;overflow-y:auto;display:flex;flex-direction:column;justify-content:center;padding:44px 26px;box-sizing:border-box;position:relative;z-index:5;">
+        <div style="text-align:center;margin-bottom:24px;">
+          <img src="assets/scratchjack-crest.webp" alt="ScratchJack" style="width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 0 30px rgba(255,200,61,0.5));animation:sjFloat 4s ease-in-out infinite;">
+          <div style="font-family:'Anton',sans-serif;font-size:32px;margin-top:12px;line-height:1;"><span style="color:#fff;">SCRATCH</span><span style="color:#FF3B52;">JACK</span></div>
+          <div style="font-size:13px;color:#8FA89A;margin-top:8px;font-family:'Space Mono',monospace;letter-spacing:0.5px;">{{ authSubtitle }}</div>
+        </div>
+        <div style="display:flex;background:rgba(0,0,0,0.3);border:1px solid rgba(255,200,61,0.2);border-radius:13px;padding:4px;margin-bottom:18px;">
+          <button onClick="{{ setLogin }}" style="{{ tabLoginStyle }}">Log In</button>
+          <button onClick="{{ setSignup }}" style="{{ tabSignupStyle }}">Sign Up</button>
+        </div>
+        <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+          <input type="text" placeholder="Display name" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:15px;margin-bottom:12px;outline:none;">
+        </sc-if>
+        <input type="email" placeholder="Email address" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:15px;margin-bottom:12px;outline:none;">
+        <input type="password" placeholder="Password" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:15px;margin-bottom:16px;outline:none;">
+        <button onClick="{{ login }}" style="width:100%;border:none;cursor:pointer;background:linear-gradient(145deg,#FFD24A,#C8922A);color:#0a1f17;font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;padding:15px;border-radius:13px;box-shadow:0 0 22px rgba(255,200,61,0.5);">{{ authCta }}</button>
+        <div style="display:flex;align-items:center;gap:12px;margin:18px 0;">
+          <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;color:#5d7a6c;letter-spacing:1px;">OR</span>
+          <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button onClick="{{ login }}" style="display:flex;align-items:center;justify-content:center;gap:9px;width:100%;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;padding:13px;border-radius:12px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.2 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.7-2.1.9-1.3 1.2-2.5 1.2-2.6 0 0-2.4-.9-2.4-3.7zM14.2 5.6c.6-.8 1-1.8.9-2.9-.9 0-2 .6-2.6 1.3-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.1z"/></svg>
+            Continue with Apple
+          </button>
+          <button onClick="{{ login }}" style="display:flex;align-items:center;justify-content:center;gap:9px;width:100%;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;padding:13px;border-radius:12px;">
+            <span style="width:18px;height:18px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:12px;color:#4285F4;">G</span>
+            Continue with Google
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:22px;">
+          <div style="display:inline-block;border:1px solid rgba(255,59,82,0.4);color:#FF8AA0;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;padding:4px 11px;border-radius:999px;letter-spacing:1px;">21+ · PLAY RESPONSIBLY</div>
+          <div style="font-size:11px;color:#6f8a7c;line-height:1.5;margin-top:10px;">By continuing you agree to our Terms &amp; Privacy Policy.</div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ false }}">
+      <!-- HEADER -->
+      <div style="flex:none;padding:54px 18px 12px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:6;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="assets/scratchjack-crest.webp" alt="ScratchJack" style="width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,200,61,0.5));">
+          <span style="font-family:'Anton',sans-serif;font-size:22px;letter-spacing:0.5px;line-height:1;"><span style="color:#fff;">SCRATCH</span><span style="color:#FF3B52;">JACK</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;align-items:center;gap:5px;background:rgba(255,200,61,0.12);border:1px solid rgba(255,200,61,0.4);border-radius:999px;padding:6px 11px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FFC83D"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.7 5 20.4l1.4-6.8L1.3 9l6.9-.7z"/></svg>
+            <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:13px;color:#FFE39A;">{{ coins }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;background:rgba(255,59,82,0.14);border:1px solid rgba(255,77,120,0.4);border-radius:999px;padding:6px 10px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FF6B7A"><path d="M12 2c1 3-1 5-2 7s-1 4 2 4c2 0 3-2 2-4 2 1 4 4 2 8-2 3-6 4-9 2-4-2-5-7-2-11 1-2 3-3 5-6z"/></svg>
+            <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:13px;color:#FF8AA0;">{{ streak }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCROLL REGION -->
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;position:relative;z-index:2;">
+
+        <!-- ============ RANKINGS ============ -->
+        <sc-if value="{{ isRankings }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:14px 18px 28px;">
+          <div style="margin-bottom:14px;">
+            <div style="font-family:'Anton',sans-serif;font-size:36px;line-height:0.95;color:#fff;text-shadow:0 0 20px rgba(52,228,214,0.35);">RANKINGS</div>
+            <div style="font-size:11px;color:#8FA89A;margin-top:5px;font-family:'Space Mono',monospace;letter-spacing:1px;">EV-RANKED SCRATCHERS · UPDATED TODAY</div>
+          </div>
+
+          <!-- state picker -->
+          <div style="position:relative;margin-bottom:16px;z-index:20;">
+            <button onClick="{{ togglePicker }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:rgba(22,38,94,0.55);border:1px solid rgba(52,228,214,0.35);border-radius:14px;padding:13px 16px;cursor:pointer;color:#fff;">
+              <span style="display:flex;align-items:center;gap:9px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34E4D6" stroke-width="2"><path d="M12 21s7-6 7-12a7 7 0 10-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;">{{ stateName }}</span>
+              </span>
+              <span style="color:#34E4D6;font-size:11px;font-family:'Space Mono',monospace;letter-spacing:1px;">CHANGE ▾</span>
+            </button>
+            <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:60px;left:0;right:0;max-height:230px;overflow-y:auto;background:#0a2418;border:1px solid rgba(52,228,214,0.4);border-radius:14px;padding:6px;box-shadow:0 18px 44px rgba(0,0,0,0.65);z-index:30;">
+                <sc-for list="{{ statesList }}" as="st" hint-placeholder-count="6">
+                  <button onClick="{{ st.onPick }}" style="width:100%;text-align:left;background:transparent;border:none;color:#E8F5EE;font-family:'Outfit',sans-serif;font-size:15px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,228,214,0.12)">{{ st.name }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- player / streak card -->
+          <div style="background:linear-gradient(145deg,rgba(22,38,94,0.5),rgba(10,42,29,0.55));border:1px solid rgba(255,200,61,0.25);border-radius:18px;padding:16px;margin-bottom:18px;position:relative;overflow:hidden;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:11px;">
+                <div style="width:46px;height:46px;border-radius:13px;background:linear-gradient(145deg,#FFD24A,#C8922A);display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:19px;color:#0a1f17;box-shadow:0 0 18px rgba(255,200,61,0.5);">{{ level }}</div>
+                <div>
+                  <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;color:#fff;">{{ levelTitle }}</div>
+                  <div style="font-size:10px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:0.5px;margin-top:2px;">LVL {{ level }} · {{ xpLabel }}</div>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:'Anton',sans-serif;font-size:26px;color:#FF8AA0;line-height:1;">{{ streak }}</div>
+                <div style="font-size:9px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:1px;">DAY STREAK</div>
+              </div>
+            </div>
+            <div style="height:7px;border-radius:99px;background:rgba(0,0,0,0.35);overflow:hidden;">
+              <div style="height:100%;width:{{ xpPct }}%;border-radius:99px;background:linear-gradient(90deg,#34E4D6,#FFC83D);box-shadow:0 0 12px rgba(52,228,214,0.6);"></div>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.08);margin:14px 0 12px;"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div>
+                <div style="font-size:10px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:7px;">DAILY CHECK-IN</div>
+                <div style="display:flex;gap:6px;">
+                  <sc-for list="{{ checkin }}" as="d" hint-placeholder-count="7">
+                    <div style="{{ d.dotStyle }}">{{ d.mark }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <button onClick="{{ claim }}" style="{{ claimStyle }}">{{ claimLabel }}</button>
+            </div>
+          </div>
+
+          <!-- top bet scratch hero -->
+          <div style="margin-bottom:22px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;">
+              <span style="font-family:'Anton',sans-serif;font-size:14px;color:#FFC83D;letter-spacing:1px;text-shadow:0 0 12px rgba(255,200,61,0.5);">★ TODAY'S TOP BET</span>
+              <span style="font-size:10px;color:#34E4D6;font-family:'Space Mono',monospace;letter-spacing:1px;animation:sjBlink 1.8s infinite;">SCRATCH TO REVEAL</span>
+            </div>
+            <div style="position:relative;border-radius:18px;overflow:hidden;border:2px solid rgba(255,200,61,0.5);box-shadow:0 0 30px rgba(255,200,61,0.25);min-height:164px;background:linear-gradient(145deg,#0c3322,#06231a);">
+              <div style="position:absolute;inset:0;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#34E4D6;letter-spacing:1.5px;">{{ stateName }} · #1 RANKED</div>
+                <div style="font-family:'Anton',sans-serif;font-size:25px;color:#fff;margin:5px 0 14px;">{{ top.full }}</div>
+                <div style="display:flex;gap:22px;">
+                  <div>
+                    <div style="font-family:'Anton',sans-serif;font-size:24px;color:#38E08A;line-height:1;">{{ top.evStr }}</div>
+                    <div style="font-size:9px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:0.5px;margin-top:3px;">NET EV</div>
+                  </div>
+                  <div>
+                    <div style="font-family:'Anton',sans-serif;font-size:24px;color:#fff;line-height:1;">{{ top.left }}</div>
+                    <div style="font-size:9px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:0.5px;margin-top:3px;">TOP PRIZES LEFT</div>
+                  </div>
+                  <div>
+                    <div style="font-family:'Anton',sans-serif;font-size:24px;color:#FFC83D;line-height:1;">{{ top.odds }}</div>
+                    <div style="font-size:9px;color:#8FA89A;font-family:'Space Mono',monospace;letter-spacing:0.5px;margin-top:3px;">WIN ODDS</div>
+                  </div>
+                </div>
+              </div>
+              <sc-if value="{{ scratched }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:12px;right:12px;background:rgba(56,224,138,0.18);border:1px solid rgba(56,224,138,0.5);border-radius:999px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#38E08A;letter-spacing:0.5px;animation:sjFloat 2.5s ease-in-out infinite;">✓ REVEALED +50 ★</div>
+              </sc-if>
+              <canvas ref="{{ scratchRef }}" width="660" height="328" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;"></canvas>
+            </div>
+          </div>
+
+          <!-- full rankings list -->
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;letter-spacing:1.5px;margin-bottom:10px;">FULL RANKINGS · {{ stateName }}</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ tickets }}" as="t" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:12px;background:{{ t.cardBg }};border:1px solid {{ t.cardBorder }};border-radius:14px;padding:12px 14px;box-shadow:{{ t.cardGlow }};">
+                <div style="width:34px;height:34px;flex:none;border-radius:9px;background:{{ t.medalBg }};color:{{ t.medalColor }};display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:16px;">{{ t.rank }}</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.name }}</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;margin:3px 0 6px;">${{ t.price }} · {{ t.odds }} · {{ t.left }} left</div>
+                  <div style="height:4px;border-radius:99px;background:rgba(0,0,0,0.35);overflow:hidden;">
+                    <div style="height:100%;width:{{ t.barPct }}%;border-radius:99px;background:{{ t.barColor }};"></div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex:none;">
+                  <div style="font-family:'Anton',sans-serif;font-size:18px;color:{{ t.evColor }};line-height:1;">{{ t.evStr }}</div>
+                  <div style="font-size:8px;color:#6f8a7c;font-family:'Space Mono',monospace;letter-spacing:0.5px;margin-top:3px;">NET EV</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ VIDEOS ============ -->
+        <sc-if value="{{ isVideos }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:14px 18px 28px;">
+          <div style="margin-bottom:14px;">
+            <div style="font-family:'Anton',sans-serif;font-size:36px;line-height:0.95;color:#fff;text-shadow:0 0 20px rgba(255,59,82,0.4);">VIDEOS</div>
+            <div style="font-size:11px;color:#8FA89A;margin-top:5px;font-family:'Space Mono',monospace;letter-spacing:1px;">FRESH FROM THE CHANNEL</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,59,82,0.1);border:1px solid rgba(255,59,82,0.3);border-radius:14px;padding:12px 14px;margin-bottom:18px;">
+            <img src="assets/scratchjack-crest.webp" alt="" style="width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(255,200,61,0.4));">
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:#fff;">@ScratchJackOfficial</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;margin-top:2px;">YouTube · 142K subscribers</div>
+            </div>
+            <a href="https://www.youtube.com/@ScratchJackOfficial" target="_blank" style="text-decoration:none;background:#FF3B52;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;padding:9px 15px;border-radius:999px;box-shadow:0 0 16px rgba(255,59,82,0.5);">SUBSCRIBE</a>
+          </div>
+
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;letter-spacing:1.5px;margin-bottom:10px;">LATEST UPLOAD</div>
+          <a href="https://www.youtube.com/@ScratchJackOfficial" target="_blank" style="text-decoration:none;color:inherit;display:block;margin-bottom:20px;">
+            <div style="position:relative;height:190px;border-radius:14px;overflow:hidden;background:repeating-linear-gradient(135deg,{{ featured.t1 }},{{ featured.t1 }} 13px,{{ featured.t2 }} 13px,{{ featured.t2 }} 26px);border:1px solid rgba(255,255,255,0.1);">
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.6) 100%);"></div>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,59,82,0.5);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3B52"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.8);color:#fff;font-family:'Space Mono',monospace;font-size:11px;padding:3px 7px;border-radius:6px;">{{ featured.dur }}</div>
+              <div style="position:absolute;top:10px;left:10px;background:rgba(255,59,82,0.9);color:#fff;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;padding:4px 8px;border-radius:6px;letter-spacing:0.5px;">NEW</div>
+            </div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:#fff;margin-top:10px;line-height:1.25;">{{ featured.title }}</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#8FA89A;margin-top:4px;">{{ featured.meta }}</div>
+          </a>
+
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;letter-spacing:1.5px;margin-bottom:10px;">MORE EPISODES</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;">
+            <sc-for list="{{ videos }}" as="v" hint-placeholder-count="6">
+              <a href="https://www.youtube.com/@ScratchJackOfficial" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+                <div style="position:relative;height:96px;border-radius:11px;overflow:hidden;background:repeating-linear-gradient(135deg,{{ v.t1 }},{{ v.t1 }} 10px,{{ v.t2 }} 10px,{{ v.t2 }} 20px);border:1px solid rgba(255,255,255,0.08);">
+                  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF3B52"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.8);color:#fff;font-family:'Space Mono',monospace;font-size:9px;padding:2px 5px;border-radius:5px;">{{ v.dur }}</div>
+                </div>
+                <div style="font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;color:#fff;margin-top:7px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ v.title }}</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;margin-top:3px;">{{ v.views }} views</div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ GUIDE ============ -->
+        <sc-if value="{{ isGuide }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:14px 18px 28px;">
+          <div style="margin-bottom:16px;">
+            <div style="font-family:'Anton',sans-serif;font-size:36px;line-height:0.95;color:#fff;text-shadow:0 0 20px rgba(255,200,61,0.35);">GUIDE</div>
+            <div style="font-size:11px;color:#8FA89A;margin-top:5px;font-family:'Space Mono',monospace;letter-spacing:1px;">HOW SCRATCHJACK BEATS THE ODDS</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+            <sc-for list="{{ guide }}" as="g" hint-placeholder-count="4">
+              <div style="display:flex;gap:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:15px;padding:15px;">
+                <div style="width:40px;height:40px;flex:none;border-radius:11px;background:{{ g.bg }};display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:18px;color:#0a1f17;box-shadow:0 0 14px {{ g.glow }};">{{ g.n }}</div>
+                <div>
+                  <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:#fff;">{{ g.title }}</div>
+                  <div style="font-size:13px;color:#A9C0B3;margin-top:4px;line-height:1.4;">{{ g.text }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;letter-spacing:1.5px;margin-bottom:10px;">FREQUENTLY ASKED</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="3">
+              <div style="background:rgba(22,38,94,0.4);border:1px solid rgba(52,228,214,0.2);border-radius:13px;overflow:hidden;">
+                <button onClick="{{ f.onToggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:none;cursor:pointer;padding:14px 15px;text-align:left;color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;">
+                  <span>{{ f.q }}</span>
+                  <span style="color:#34E4D6;font-size:18px;flex:none;">{{ f.sign }}</span>
+                </button>
+                <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 15px 15px;font-size:13px;color:#A9C0B3;line-height:1.5;">{{ f.a }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ BLOG ============ -->
+        <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:14px 18px 28px;">
+          <div style="margin-bottom:16px;">
+            <div style="font-family:'Anton',sans-serif;font-size:36px;line-height:0.95;color:#fff;text-shadow:0 0 20px rgba(255,77,157,0.4);">RESEARCH</div>
+            <div style="font-size:11px;color:#8FA89A;margin-top:5px;font-family:'Space Mono',monospace;letter-spacing:1px;">DATA, METHODOLOGY &amp; DEEP DIVES</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+              <a href="https://www.scratchjack.com/" target="_blank" style="text-decoration:none;color:inherit;display:flex;gap:13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:15px;padding:12px;">
+                <div style="width:72px;height:72px;flex:none;border-radius:11px;overflow:hidden;background:repeating-linear-gradient(135deg,{{ p.t1 }},{{ p.t1 }} 9px,{{ p.t2 }} 9px,{{ p.t2 }} 18px);"></div>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
+                  <span style="display:inline-block;align-self:flex-start;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.5px;color:#0a1f17;background:{{ p.catColor }};padding:3px 8px;border-radius:6px;margin-bottom:6px;">{{ p.cat }}</span>
+                  <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:#fff;line-height:1.25;">{{ p.title }}</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;margin-top:5px;">{{ p.date }} · {{ p.read }}</div>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ ABOUT ============ -->
+        <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:14px 18px 28px;">
+          <div style="text-align:center;margin-bottom:22px;">
+            <img src="assets/scratchjack-crest.webp" alt="ScratchJack" style="width:130px;height:130px;object-fit:contain;filter:drop-shadow(0 0 36px rgba(255,200,61,0.5));animation:sjFloat 4s ease-in-out infinite;">
+            <div style="font-family:'Anton',sans-serif;font-size:30px;margin-top:16px;line-height:1;"><span style="color:#fff;">SCRATCH</span><span style="color:#FF3B52;">JACK</span></div>
+            <div style="font-family:'Outfit',sans-serif;font-size:14px;color:#FFC83D;margin-top:8px;font-style:italic;">"Play the odds, not the hype."</div>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:17px;font-size:14px;color:#C4D6CB;line-height:1.55;margin-bottom:16px;">
+            ScratchJack tracks every state lottery's scratch-off prizes in real time, then ranks each ticket by its true expected value — so you always know which games still have the big winners waiting, and which are dead. No hype. Just the math.
+          </div>
+
+          <div style="display:flex;gap:10px;margin-bottom:20px;">
+            <div style="flex:1;text-align:center;background:linear-gradient(145deg,rgba(22,38,94,0.5),rgba(10,42,29,0.5));border:1px solid rgba(255,200,61,0.22);border-radius:14px;padding:15px 8px;">
+              <div style="font-family:'Anton',sans-serif;font-size:24px;color:#FFC83D;">12</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;color:#8FA89A;letter-spacing:0.5px;margin-top:3px;">STATES</div>
+            </div>
+            <div style="flex:1;text-align:center;background:linear-gradient(145deg,rgba(22,38,94,0.5),rgba(10,42,29,0.5));border:1px solid rgba(52,228,214,0.22);border-radius:14px;padding:15px 8px;">
+              <div style="font-family:'Anton',sans-serif;font-size:24px;color:#34E4D6;">480+</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;color:#8FA89A;letter-spacing:0.5px;margin-top:3px;">TICKETS</div>
+            </div>
+            <div style="flex:1;text-align:center;background:linear-gradient(145deg,rgba(22,38,94,0.5),rgba(10,42,29,0.5));border:1px solid rgba(255,77,157,0.22);border-radius:14px;padding:15px 8px;">
+              <div style="font-family:'Anton',sans-serif;font-size:24px;color:#FF4D9D;">24/7</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;color:#8FA89A;letter-spacing:0.5px;margin-top:3px;">UPDATES</div>
+            </div>
+          </div>
+
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8FA89A;letter-spacing:1.5px;margin-bottom:10px;">YOUR BADGES</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;">
+            <sc-for list="{{ badges }}" as="b" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;background:{{ b.bg }};border:1px solid {{ b.border }};border-radius:13px;padding:11px 12px;opacity:{{ b.opacity }};">
+                <div style="width:36px;height:36px;flex:none;border-radius:50%;background:{{ b.iconBg }};display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:16px;color:{{ b.iconColor }};">{{ b.icon }}</div>
+                <div style="min-width:0;">
+                  <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ b.name }}</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:9px;color:#8FA89A;margin-top:2px;">{{ b.status }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+            <a href="https://www.youtube.com/@ScratchJackOfficial" target="_blank" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3B52;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;padding:14px;border-radius:13px;box-shadow:0 0 20px rgba(255,59,82,0.4);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M21.6 7.2a2.8 2.8 0 00-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 00-2 2A29 29 0 002 12a29 29 0 00.4 4.8 2.8 2.8 0 002 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 002-2A29 29 0 0022 12a29 29 0 00-.4-4.8zM10 15V9l5.2 3z"/></svg>
+              Subscribe on YouTube
+            </a>
+            <a href="https://www.scratchjack.com/" target="_blank" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,200,61,0.12);border:1px solid rgba(255,200,61,0.4);color:#FFE39A;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;padding:14px;border-radius:13px;">Visit ScratchJack.com</a>
+          </div>
+
+          <div style="text-align:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+            <div style="display:inline-block;border:1px solid rgba(255,59,82,0.4);color:#FF8AA0;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:5px 12px;border-radius:999px;letter-spacing:1px;margin-bottom:10px;">21+ · PLAY RESPONSIBLY</div>
+            <div style="font-size:11px;color:#7d9488;line-height:1.5;">Gambling problem? Call 1-800-GAMBLER.<br>ScratchJack is an informational tool and does not sell tickets.</div>
+          </div>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <!-- BOTTOM TAB BAR -->
+      <div style="flex:none;display:flex;background:rgba(4,16,11,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,200,61,0.18);padding:8px 6px 22px;position:relative;z-index:6;box-shadow:0 -8px 26px rgba(0,0,0,0.55);">
+        <button onClick="{{ go.rankings }}" style="{{ navRankings }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="13" width="4.5" height="8" rx="1"/><rect x="9.75" y="8" width="4.5" height="13" rx="1"/><rect x="16.5" y="4" width="4.5" height="17" rx="1"/></svg>
+          <span style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;">Rankings</span>
+        </button>
+        <button onClick="{{ go.videos }}" style="{{ navVideos }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+          <span style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;">Videos</span>
+        </button>
+        <button onClick="{{ go.guide }}" style="{{ navGuide }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 113.5 2.3c-.8.4-1 .8-1 1.7" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor" stroke="none"/></svg>
+          <span style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;">Guide</span>
+        </button>
+        <button onClick="{{ go.blog }}" style="{{ navBlog }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round"/></svg>
+          <span style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;">Research</span>
+        </button>
+        <button onClick="{{ go.about }}" style="{{ navAbout }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+          <span style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;">Rewards</span>
+        </button>
+      </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 480, &quot;height&quot;: 940 },
+  &quot;level&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 7, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;streak&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 12, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;startState&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;Texas&quot;, &quot;options&quot;: [&quot;Texas&quot;, &quot;Florida&quot;, &quot;New York&quot;, &quot;California&quot;, &quot;Ohio&quot;], &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  state = { tab: 'rankings', stateName: null, pickerOpen: false, scratched: false, claimed: false, coins: 2450, faq: null, authed: false, authMode: 'login' };
+
+  states = ['Texas','Florida','New York','California','Ohio','Georgia','Pennsylvania','New Jersey','Illinois','Arizona','Michigan','Virginia'];
+
+  rawTickets = [
+    { rank: 1, name: '500X Loteria', price: 30, ev: 8.2, odds: '1 in 3.21', left: '4 of 6' },
+    { rank: 2, name: 'Ultimate Millions', price: 50, ev: 6.7, odds: '1 in 3.04', left: '2 of 4' },
+    { rank: 3, name: 'Gold Rush Tripler', price: 25, ev: 5.1, odds: '1 in 3.55', left: '7 of 10' },
+    { rank: 4, name: 'Lucky 7s Bonus', price: 20, ev: 2.9, odds: '1 in 3.78', left: '12 of 20' },
+    { rank: 5, name: 'Neon Cash Blowout', price: 10, ev: 0.4, odds: '1 in 4.10', left: '30 of 50' },
+    { rank: 6, name: 'Diamond Dazzler', price: 5, ev: -1.8, odds: '1 in 4.66', left: '88 of 120' },
+    { rank: 7, name: 'Triple Cherry', price: 3, ev: -3.2, odds: '1 in 4.90', left: '210 of 300' },
+    { rank: 8, name: 'Quick Spin', price: 2, ev: -5.6, odds: '1 in 5.20', left: '540 of 800' },
+  ];
+
+  rawVideos = [
+    { title: '$50 Tickets ONLY — Did We Actually Profit?', dur: '12:05', views: '88K' },
+    { title: 'Top 5 Scratchers to AVOID Right Now', dur: '9:41', views: '210K' },
+    { title: 'Claiming a $10,000 Winner LIVE', dur: '22:13', views: '305K' },
+    { title: 'Florida vs Texas — Who Has Better Odds?', dur: '14:30', views: '67K' },
+    { title: 'How I Read the Prizes-Remaining Data', dur: '7:58', views: '54K' },
+    { title: '$5 Challenge: Turning $100 Into a Win', dur: '16:02', views: '120K' },
+  ];
+
+  rawPosts = [
+    { title: "The Real Math Behind 'Prizes Remaining'", cat: 'Strategy', date: 'Jun 12', read: '6 min read' },
+    { title: 'Why $30 Tickets Usually Beat $5 Tickets', cat: 'Odds', date: 'Jun 5', read: '8 min read' },
+    { title: 'State-by-State: Best Scratch-Off Odds 2026', cat: 'Rankings', date: 'May 28', read: '11 min read' },
+    { title: 'Bankroll Management for Scratch Players', cat: 'Strategy', date: 'May 20', read: '5 min read' },
+    { title: 'How We Calculate the ScratchJack EV Score', cat: 'Behind the Scenes', date: 'May 10', read: '9 min read' },
+  ];
+
+  guideData = [
+    { n: 1, title: 'Pick your state', text: 'We pull live prize data straight from your state lottery the moment it updates.' },
+    { n: 2, title: 'We crunch the odds', text: 'Remaining top prizes divided by tickets left tells us what each game is really worth today.' },
+    { n: 3, title: 'Every ticket gets ranked', text: 'A single Net EV score scores each scratcher on its true expected payout — apples to apples.' },
+    { n: 4, title: 'Play smarter', text: 'Chase the green, skip the red. Spend on the games that still have winners in them.' },
+  ];
+
+  faqData = [
+    { q: 'What does "Net EV" mean?', a: 'Net EV is the expected return per dollar after accounting for the prizes still unclaimed. Positive means the game currently pays back more than average; negative means the best prizes are mostly gone.' },
+    { q: 'How often is the data updated?', a: 'Prize-remaining counts refresh automatically every day, and rankings re-sort the moment a top prize is claimed.' },
+    { q: 'Does ScratchJack sell tickets?', a: 'No. We are an informational odds tracker only. Buy tickets through your official state lottery retailers.' },
+  ];
+
+  rawBadges = [
+    { name: 'First Scratch', icon: '★', earned: true },
+    { name: '7-Day Streak', icon: '7', earned: true },
+    { name: 'High Roller', icon: '♦', earned: true },
+    { name: 'Odds Master', icon: '%', earned: false },
+  ];
+
+  palette = [['#1c5a52','#0e3b36'],['#5a1c44','#3b0e2c'],['#5a4a1c','#3b300e'],['#5a1c25','#3b0e16'],['#1c2a5a','#0e163b'],['#1c5a32','#0e3b20']];
+
+  go = {
+    rankings: () => this.setState({ tab: 'rankings', pickerOpen: false }),
+    videos: () => this.setState({ tab: 'videos', pickerOpen: false }),
+    guide: () => this.setState({ tab: 'guide', pickerOpen: false }),
+    blog: () => this.setState({ tab: 'blog', pickerOpen: false }),
+    about: () => this.setState({ tab: 'about', pickerOpen: false }),
+  };
+
+  togglePicker = () => this.setState(s => ({ pickerOpen: !s.pickerOpen }));
+  pick = (name) => this.setState({ stateName: name, pickerOpen: false });
+  claim = () => { if (!this.state.claimed) this.setState(s => ({ claimed: true, coins: s.coins + 250 })); };
+  toggleFaq = (i) => this.setState(s => ({ faq: s.faq === i ? null : i }));
+
+  login = () => this.setState({ authed: true });
+  setLogin = () => this.setState({ authMode: 'login' });
+  setSignup = () => this.setState({ authMode: 'signup' });
+
+  segStyle(active) {
+    return {
+      flex: 1, padding: '10px', border: 'none', borderRadius: '10px', cursor: 'pointer',
+      fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: '14px',
+      background: active ? 'linear-gradient(145deg,#FFD24A,#C8922A)' : 'transparent',
+      color: active ? '#0a1f17' : '#8FA89A', transition: 'all 0.2s',
+    };
+  }
+
+  scratchRef = (node) => { if (node && !node._init) { node._init = true; this.initScratch(node); } };
+
+  initScratch(canvas) {
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const g = ctx.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, '#caa23a'); g.addColorStop(0.45, '#f6d873'); g.addColorStop(0.55, '#fff0b8'); g.addColorStop(1, '#b8862a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(0,0,0,0.10)';
+    for (let i = 0; i < 90; i++) { ctx.beginPath(); ctx.arc(Math.random() * w, Math.random() * h, Math.random() * 3 + 1, 0, 7); ctx.fill(); }
+    ctx.fillStyle = 'rgba(60,30,0,0.45)';
+    ctx.font = "bold 34px 'Space Mono', monospace"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('SCRATCH HERE', w / 2, h / 2 - 14);
+    ctx.font = "20px 'Space Mono', monospace";
+    ctx.fillText('★ reveal the top bet ★', w / 2, h / 2 + 26);
+
+    let drawing = false;
+    const pos = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches && e.touches[0] ? e.touches[0] : e;
+      return { x: (t.clientX - r.left) * (w / r.width), y: (t.clientY - r.top) * (h / r.height) };
+    };
+    const scratch = (x, y) => { ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 46, 0, 7); ctx.fill(); };
+    const check = () => {
+      const d = ctx.getImageData(0, 0, w, h).data; let clear = 0, total = 0;
+      for (let i = 3; i < d.length; i += 32) { total++; if (d[i] === 0) clear++; }
+      if (clear / total > 0.28 && !this.state.scratched) {
+        this.setState(s => ({ scratched: true, coins: s.coins + 50 }));
+        ctx.clearRect(0, 0, w, h);
+      }
+    };
+    const down = (e) => { drawing = true; const p = pos(e); scratch(p.x, p.y); };
+    const move = (e) => { if (!drawing) return; if (e.cancelable) e.preventDefault(); const p = pos(e); scratch(p.x, p.y); };
+    const up = () => { if (drawing) { drawing = false; check(); } };
+    canvas.addEventListener('mousedown', down);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+    canvas.addEventListener('touchstart', down, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    canvas.addEventListener('touchend', up);
+  }
+
+  navStyle(id) {
+    const on = this.state.tab === id;
+    return {
+      flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+      background: 'transparent', border: 'none', cursor: 'pointer', padding: '6px 0',
+      color: on ? '#FFC83D' : '#5d7a6c',
+      textShadow: on ? '0 0 12px rgba(255,200,61,0.7)' : 'none',
+      transform: on ? 'translateY(-1px)' : 'none',
+      transition: 'all 0.2s',
+    };
+  }
+
+  renderVals() {
+    const fmt = (n) => n.toLocaleString('en-US');
+    const tab = this.state.tab;
+    const signup = this.state.authMode === 'signup';
+    const level = this.props.level ?? 7;
+    const streak = this.props.streak ?? 12;
+    const stateName = this.state.stateName ?? (this.props.startState ?? 'Texas');
+    const levelTitle = level >= 10 ? 'The Whale' : level >= 7 ? 'High Roller' : level >= 4 ? 'Card Shark' : 'Rookie';
+
+    const medals = { 1: ['linear-gradient(145deg,#FFD24A,#C8922A)', '#0a1f17'], 2: ['linear-gradient(145deg,#E2E8F0,#9AA6B2)', '#0a1f17'], 3: ['linear-gradient(145deg,#E0964A,#B36A28)', '#0a1f17'] };
+    const tickets = this.rawTickets.map(t => {
+      const pos = t.ev >= 0;
+      const m = medals[t.rank];
+      return {
+        ...t,
+        evStr: (t.ev > 0 ? '+' : '') + t.ev.toFixed(1) + '%',
+        evColor: pos ? '#38E08A' : '#FF6B7A',
+        barPct: Math.max(5, Math.min(100, Math.round((t.ev + 8) / 17 * 100))),
+        barColor: pos ? 'linear-gradient(90deg,#38E08A,#FFC83D)' : 'linear-gradient(90deg,#C8283A,#FF6B7A)',
+        medalBg: m ? m[0] : 'rgba(255,255,255,0.08)',
+        medalColor: m ? m[1] : '#8FA89A',
+        cardBg: t.rank === 1 ? 'linear-gradient(145deg,rgba(255,200,61,0.14),rgba(255,255,255,0.04))' : 'rgba(255,255,255,0.04)',
+        cardBorder: t.rank === 1 ? 'rgba(255,200,61,0.5)' : 'rgba(255,255,255,0.08)',
+        cardGlow: t.rank === 1 ? '0 0 22px rgba(255,200,61,0.2)' : 'none',
+      };
+    });
+    const top = { ...tickets[0], full: '$' + tickets[0].price + ' · ' + tickets[0].name.toUpperCase() };
+
+    const videos = this.rawVideos.map((v, i) => { const p = this.palette[i % this.palette.length]; return { ...v, t1: p[0], t2: p[1] }; });
+    const fp = this.palette[0];
+    const featured = { title: 'I Bought $1,000 in Texas Scratch-Offs — Here\u2019s What Happened', dur: '18:24', meta: '142K views · 2 days ago', t1: fp[0], t2: fp[1] };
+
+    const catColors = { 'Strategy': '#34E4D6', 'Odds': '#FFC83D', 'Rankings': '#FF4D9D', 'Behind the Scenes': '#9D7CFF' };
+    const posts = this.rawPosts.map((p, i) => { const t = this.palette[(i + 1) % this.palette.length]; return { ...p, t1: t[0], t2: t[1], catColor: catColors[p.cat] || '#FFC83D' }; });
+
+    const guideBg = ['linear-gradient(145deg,#FFD24A,#C8922A)', 'linear-gradient(145deg,#34E4D6,#1c8a80)', 'linear-gradient(145deg,#FF4D9D,#b32d6c)', 'linear-gradient(145deg,#38E08A,#1c8a50)'];
+    const guideGlow = ['rgba(255,200,61,0.5)', 'rgba(52,228,214,0.5)', 'rgba(255,77,157,0.5)', 'rgba(56,224,138,0.5)'];
+    const guide = this.guideData.map((g, i) => ({ ...g, bg: guideBg[i % 4], glow: guideGlow[i % 4] }));
+
+    const faqs = this.faqData.map((f, i) => ({ ...f, open: this.state.faq === i, sign: this.state.faq === i ? '\u2212' : '+', onToggle: () => this.toggleFaq(i) }));
+
+    const badges = this.rawBadges.map(b => b.earned
+      ? { ...b, bg: 'linear-gradient(145deg,rgba(255,200,61,0.16),rgba(255,255,255,0.04))', border: 'rgba(255,200,61,0.4)', opacity: 1, iconBg: 'linear-gradient(145deg,#FFD24A,#C8922A)', iconColor: '#0a1f17', status: 'EARNED' }
+      : { ...b, bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.07)', opacity: 0.45, iconBg: 'rgba(255,255,255,0.08)', iconColor: '#5d7a6c', status: 'LOCKED' });
+
+    const today = 5;
+    const baseDot = { width: '26px', height: '26px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Space Mono', monospace", fontSize: '11px', fontWeight: 700, flex: 'none' };
+    const checkin = [1, 2, 3, 4, 5, 6, 7].map(n => {
+      let st = n < today ? 'done' : (n === today ? (this.state.claimed ? 'done' : 'today') : 'future');
+      if (st === 'done') return { dotStyle: { ...baseDot, background: 'linear-gradient(145deg,#FFD24A,#C8922A)', color: '#0a1f17' }, mark: '\u2713' };
+      if (st === 'today') return { dotStyle: { ...baseDot, background: 'transparent', color: '#FFC83D', border: '2px solid #FFC83D', boxShadow: '0 0 12px rgba(255,200,61,0.6)' }, mark: String(n) };
+      return { dotStyle: { ...baseDot, background: 'rgba(255,255,255,0.06)', color: '#5d7a6c' }, mark: String(n) };
+    });
+
+    const claimStyle = this.state.claimed
+      ? { background: 'rgba(56,224,138,0.15)', border: '1px solid rgba(56,224,138,0.45)', color: '#38E08A', fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: '12px', padding: '11px 16px', borderRadius: '12px', cursor: 'default', flex: 'none', whiteSpace: 'nowrap' }
+      : { background: 'linear-gradient(145deg,#FFD24A,#C8922A)', border: 'none', color: '#0a1f17', fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: '12px', padding: '11px 16px', borderRadius: '12px', cursor: 'pointer', flex: 'none', whiteSpace: 'nowrap', boxShadow: '0 0 16px rgba(255,200,61,0.5)' };
+
+    return {
+      isDark: true, tab,
+      isAuthed: this.state.authed, showLogin: !this.state.authed, isSignup: signup,
+      authSubtitle: signup ? 'Create your free account' : 'Welcome back, high roller',
+      authCta: signup ? 'Create Account' : 'Log In',
+      login: this.login, setLogin: this.setLogin, setSignup: this.setSignup,
+      tabLoginStyle: this.segStyle(!signup), tabSignupStyle: this.segStyle(signup),
+      isRankings: tab === 'rankings', isVideos: tab === 'videos', isGuide: tab === 'guide', isBlog: tab === 'blog', isAbout: tab === 'about',
+      stateName, pickerOpen: this.state.pickerOpen,
+      statesList: this.states.map(s => ({ name: s, onPick: () => this.pick(s) })),
+      coins: fmt(this.state.coins), streak, level, levelTitle,
+      xpPct: 62, xpLabel: '1,240 / 2,000 XP',
+      tickets, top, videos, featured, posts, guide, faqs, badges, checkin,
+      scratched: this.state.scratched, scratchRef: this.scratchRef,
+      claim: this.claim, claimStyle, claimLabel: this.state.claimed ? 'CLAIMED \u2713' : 'CLAIM +250 \u2605',
+      togglePicker: this.togglePicker, go: this.go,
+      navRankings: this.navStyle('rankings'), navVideos: this.navStyle('videos'), navGuide: this.navStyle('guide'), navBlog: this.navStyle('blog'), navAbout: this.navStyle('about'),
+    };
+  }
+}
+</script>
+</body>
+</html>
